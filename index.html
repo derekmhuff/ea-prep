@@ -825,6 +825,7 @@ function stimInner(id){const s=STIM[id];
 const stimBox=q=>q.stim?`<div class="stim" data-stim="${q.stim}">${stimInner(q.stim)}</div>`:"";
 
 /* ================= question rendering ================= */
+function toolsHTML(q){return`<span class="tools">${SECS[q.sec].calc?`<button class="tool" data-act="calc">Calculator</button>`:""}<button class="tool" data-act="scratch">Scratchpad</button></span>`;}
 function qaHTML(q,r,o){o=o||{};const dis=o.locked?"disabled":"";let h='<div class="stem">';
   if(q.kind==="gi"){h+="<p>"+q.stem.replace(/\[\[(\d)\]\]/g,(m,k)=>{k=+k;const p=q.parts[k],v=r&&r[k]!=null?r[k]:null;const cls=o.show?(v===p.a?" ok":" bad"):"";return`<select class="gi${cls}" data-k="${k}" ${dis} aria-label="Blank ${k+1}"><option value="">Select…</option>${p.o.map((t,i)=>`<option value="${i}" ${v===i?"selected":""}>${t}</option>`).join("")}</select>`;})+"</p>";}
   else h+=`<p>${q.stem}</p>`;
@@ -859,7 +860,7 @@ function getQotd(){const dk=dayKey(Date.now());
   return S.qotd;}
 function qotdDays(){const days=new Set(S.qotdLog||[]),now=dayKey(Date.now());let n=0;for(let i=0;i<7;i++){const d=new Date(now);d.setDate(d.getDate()-i);if(days.has(d.getTime()))n++;}return n;}
 function qotdCard(){const qd=getQotd(),q=Q[qd.id],ok=qd.done&&isCorrect(q,qd.r);
-  return`<h2>Question of the day</h2><p class="small">${TYPES[q.type].n}, ${q.sub}. Answered ${qotdDays()} of the last 7 days.</p><div class="qa" id="qa">${qaHTML(q,qd.r,{locked:qd.done,show:qd.done,perm:qd.perm})}</div>${qd.done?explainHTML(q,qd.r,ok,false,qd.perm)+`<p class="small">A new question appears tomorrow.</p>`:`<div class="row"><button class="btn primary" data-act="qcheck" id="chk" ${isComplete(q,qd.r)?"":"disabled"}>Check answer</button></div>`}`;}
+  return`<h2>Question of the day</h2><div class="tbar"><span class="small">${TYPES[q.type].n}, ${q.sub}. Answered ${qotdDays()} of the last 7 days.</span>${qd.done?"":toolsHTML(q)}</div><div class="qa" id="qa">${qaHTML(q,qd.r,{locked:qd.done,show:qd.done,perm:qd.perm})}</div>${qd.done?explainHTML(q,qd.r,ok,false,qd.perm)+`<p class="small">A new question appears tomorrow.</p>`:`<div class="row"><button class="btn primary" data-act="qcheck" id="chk" ${isComplete(q,qd.r)?"":"disabled"}>Check answer</button></div>`}`;}
 function mountQotd(){const box=$("#qotd");if(!box)return;box.innerHTML=qotdCard();const qd=S.qotd,q=Q[qd.id];
   if(!qd.done)bindQA(q,()=>qd.r,r=>{qd.r=r;$("#chk").disabled=!isComplete(q,r);},{perm:qd.perm});}
 function qotdCheck(){const qd=S.qotd,q=Q[qd.id],ok=isCorrect(q,qd.r),secs=(Date.now()-qotdStart)/1000;qd.done=true;qd.ok=ok;
@@ -906,6 +907,7 @@ VIEWS.prep=()=>{setMode("prep");showNav(true,"prep");
   ACT.drill=b=>startPrep("drill",b.dataset.t);
   ACT.flash=b=>startFlash(b.dataset.d);
   ACT.qcheck=qotdCheck;
+  ACT.calc=()=>toggleCalc();ACT.scratch=()=>openScratch();
   ACT.rdrill=b=>{S.recapSeen=lw;save();startPrep("drill",b.dataset.t);};
   ACT.rdismiss=()=>{S.recapSeen=lw;save();go("prep");};
   mountQotd();qotdStart=Date.now();
@@ -928,13 +930,14 @@ function startPrep(kind,arg){const n=kind==="mini"?SECS[arg].mods[0]:8;
 VIEWS.session=()=>{setMode("prep");showNav(false);const id=P.ids[P.i],q=Q[id];
   setHeader(`<button class="hbtn" data-act="end">End</button>`,`<span class="tsec">${P.i+1} of ${P.ids.length}</span>${P.left!=null?`<span id="timer" class="timer${P.over?" low":""}">${P.over?"Over time":mmss(P.left)}</span>`:""}`);
   const ok=P.checked&&isCorrect(q,P.r);
-  app.innerHTML=`<p class="qtype">${TYPES[q.type].n}, ${q.sub}</p>${stimBox(q)}<div class="qa" id="qa">${qaHTML(q,P.r,{locked:P.checked,show:P.checked,perm:P.perms[id]})}</div>${P.checked?explainHTML(q,P.r,ok,P.skipped,P.perms[id]):""}
+  app.innerHTML=`<div class="tbar"><span class="qtype" style="margin:0">${TYPES[q.type].n}, ${q.sub}</span>${toolsHTML(q)}</div>${stimBox(q)}<div class="qa" id="qa">${qaHTML(q,P.r,{locked:P.checked,show:P.checked,perm:P.perms[id]})}</div>${P.checked?explainHTML(q,P.r,ok,P.skipped,P.perms[id]):""}
   <div class="dock">${P.checked?`<button class="btn primary wide" data-act="next">${P.i===P.ids.length-1?"See summary":"Next question"}</button>`:`<button class="btn" data-act="skip">Show me how</button><button class="btn primary" data-act="check" id="chk" ${isComplete(q,P.r)?"":"disabled"}>Check answer</button>`}</div>`;
   if(!P.checked)bindQA(q,()=>P.r,r=>{P.r=r;$("#chk").disabled=!isComplete(q,r);},{perm:P.perms[id]});
   const grade=skipped=>{const ok=!skipped&&isCorrect(q,P.r);P.skipped=skipped;const secs=(Date.now()-P.qStart)/1000;
     logAttempt(q,ok,secs,"p");if(!ok&&flashable(q))cardMiss(q.id);P.res.push({id,ok,secs,r:P.r,p:P.perms[id]});P.checked=true;save();
     VIEWS.session();const f=$("#fbk");if(f){f.scrollIntoView({block:"start",behavior:"smooth"});f.focus({preventScroll:true});}};
   ACT.check=()=>grade(false);
+  ACT.calc=()=>toggleCalc();ACT.scratch=()=>openScratch();
   ACT.skip=()=>grade(true);
   ACT.next=()=>{if(P.i===P.ids.length-1){go("psum");return;}P.i++;P.r=null;P.checked=false;P.skipped=false;P.qStart=Date.now();go("session");};
   ACT.end=async()=>{if(!P.res.length||await confirmBox("End this session?","Your answers so far are saved.","End session","Keep going"))go(P.res.length?"psum":"prep");};
@@ -981,11 +984,11 @@ VIEWS.flash=()=>{setMode("prep");showNav(false);const key=F.queue[F.i],[kind,id]
     const rate=ok=>{gradeCard(key,ok);if(ok)F.ok++;save();nextCard();};
     ACT.again=()=>rate(false);ACT.got=()=>rate(true);
   }else{const q=Q[id],ok=F.checked&&isCorrect(q,F.r);if(!(key in F.perms))F.perms[key]=permFor(q);const perm=F.perms[key];
-    app.innerHTML=`<p class="qtype">Quick question: ${TYPES[q.type].n}</p><div class="qa" id="qa">${qaHTML(q,F.r,{locked:F.checked,show:F.checked,perm})}</div>${F.checked?explainHTML(q,F.r,ok,false,perm):""}
+    app.innerHTML=`<div class="tbar"><span class="qtype" style="margin:0">Quick question: ${TYPES[q.type].n}</span>${toolsHTML(q)}</div><div class="qa" id="qa">${qaHTML(q,F.r,{locked:F.checked,show:F.checked,perm})}</div>${F.checked?explainHTML(q,F.r,ok,false,perm):""}
     <div class="dock">${F.checked?`<button class="btn primary wide" data-act="nx">${last?"Finish":"Next card"}</button>`:`<button class="btn primary wide" data-act="check" id="chk" ${isComplete(q,F.r)?"":"disabled"}>Check answer</button>`}</div>`;
     if(!F.checked)bindQA(q,()=>F.r,r=>{F.r=r;$("#chk").disabled=!isComplete(q,r);},{perm});
     ACT.check=()=>{const good=isCorrect(q,F.r);logAttempt(q,good,(Date.now()-F.qStart)/1000,"f");gradeCard(key,good);if(good)F.ok++;F.checked=true;save();VIEWS.flash();const f=$("#fbk");if(f)f.scrollIntoView({block:"start",behavior:"smooth"});};
-    ACT.nx=nextCard;}
+    ACT.nx=nextCard;ACT.calc=()=>toggleCalc();ACT.scratch=()=>openScratch();}
   ACT.end=()=>endFlash();};
 function nextCard(){if(F.i>=F.queue.length-1){endFlash();return;}F.i++;F.r=null;F.checked=false;F.flipped=false;F.qStart=Date.now();go("flash");}
 function endFlash(){logSession("flash",(Date.now()-F.start)/1000);save();const n=F.i+(F.checked||F.flipped?1:0);toast(`Round done: ${F.ok} of ${Math.max(n,F.ok)} right.`);go("prep");}
