@@ -170,7 +170,7 @@ details summary{cursor:pointer;font-weight:600;color:var(--accent);margin-top:6p
 .cell.ans{border-color:var(--accent)}
 .cell.flag{box-shadow:inset 0 -4px 0 #B5651D}
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:var(--nav);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabs button{flex:1;background:none;border:0;padding:10px 4px 12px;font-size:13px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:56px}
+.tabs button{flex:1;background:none;border:0;padding:10px 4px 12px;font-size:12px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:56px}
 .tabs button i{width:22px;height:4px;border-radius:2px;background:transparent}
 .tabs button.on{color:var(--ink)}
 .tabs button.on i{background:var(--hl)}
@@ -209,6 +209,16 @@ label.f{display:block;margin:12px 0 4px;font-weight:600;font-size:14px}
 .modal{background:var(--sheet);color:var(--ink);width:min(420px,100%);border-radius:10px;padding:20px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(64px + env(safe-area-inset-top,0px));z-index:60;background:var(--ink);color:var(--sheet);padding:10px 16px;border-radius:8px;font-size:14px;max-width:90vw;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 .rules{padding-left:20px;margin:10px 0}
+.track{display:flex;gap:6px;margin:4px 0 6px}
+.track span{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.track span.on{background:var(--accent)}
+.wstep{background:var(--sheet);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:10px 14px;margin:12px 0}
+.wstep p{margin:0 0 4px}
+.wstep .why{color:var(--muted);font-size:14px}
+.hint{background:var(--hl);color:var(--hl-ink);padding:10px 12px;border-radius:6px;margin-top:12px}
+.linkbtn{background:none;border:0;padding:4px 0;margin-right:12px;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-align:left}
+.toast{display:flex;align-items:center;gap:12px;cursor:pointer}
+.tclose{flex:none;background:none;border:1px solid currentColor;color:inherit;border-radius:6px;padding:4px 10px;font-size:13px;font-weight:600;min-height:32px}
 .recap{border-left:6px solid var(--accent)}
 .recap .delta{font-size:14px;color:var(--muted)}
 .qotd .qa{margin-top:6px}
@@ -222,6 +232,7 @@ label.f{display:block;margin:12px 0 4px;font-weight:600;font-size:14px}
 <header class="top"><div class="hl" id="hl"></div><div class="hr" id="hr"></div></header>
 <main id="app"></main>
 <nav class="tabs" id="tabs" aria-label="Main">
+  <button data-go="learn"><i></i>Learn</button>
   <button data-go="prep"><i></i>Exam preparation</button>
   <button data-go="test"><i></i>Practice test</button>
   <button data-go="progress"><i></i>Progress</button>
@@ -727,6 +738,192 @@ CONCEPTS.push(
  {id:"c27",topic:"Quant",front:"Out at 40 mph, back the same distance at 60 mph. Average speed?",back:"48 mph, not 50. Average speed = total distance ÷ total time, and you spend longer at the slower speed."}
 );
 
+const LESSONS=[
+{id:"L01",t:"Fractions, decimals, and percents",blurb:"The conversions behind every percent and ratio question.",match:{subs:[]},
+ c:[["Percent means “per hundred”","<p>35% = 35/100 = 0.35. To turn a percent into a decimal, move the decimal point two places left. To go the other way, move it two places right.</p>"],
+  ["Fractions worth memorizing","<p>1/2 = 50%, 1/4 = 25%, 3/4 = 75%, 1/5 = 20%, 1/10 = 10%, 1/8 = 12.5%, 1/3 ≈ 33.3%, 2/3 ≈ 66.7%.</p><p>Knowing these by heart makes mental math fast, which matters because Quant has no calculator.</p>"],
+  ["Finding a percent of a number","<p>“Of” means multiply: 35% of 2,400 = 0.35 × 2,400 = 840.</p><p>Mental shortcut: 10% of 2,400 is 240, so 30% is 720 and 5% is 120. Add them: 840.</p>"],
+  ["What percent is A of B?","<p>Divide the part by the whole: 18 out of 120 is 18 ÷ 120 = 0.15 = 15%. Simplify the fraction first if you can: 18/120 = 3/20 = 15/100.</p>"]],
+ ex:{q:"A team closed 45 of its 60 open deals. What percent did it close?",steps:[["Write it as a fraction: 45/60.","Part over whole."],["Simplify: divide top and bottom by 15 to get 3/4.","Smaller numbers are easier to convert."],["3/4 = 75%.","It’s one of the fractions worth memorizing."]]},
+ traps:["Dividing the wrong way round. In “what percent is A of B,” the whole (B) goes on the bottom.","Mixing up 0.35 and 0.35%. 0.35 is 35%; 0.35% is 0.0035."],
+ p:[
+ {id:"L01a",stem:"What is 20% of 350?",ch:["35","50","70","175","280"],a:2,hint:"20% is the same as 1/5. What is 350 ÷ 5?",traps:{0:"35 is 10% of 350. Double it for 20%."},steps:["20% = 1/5.","350 ÷ 5 = 70."]},
+ {id:"L01b",stem:"Which of the following equals 3/8?",ch:["0.38","0.375","3.8%","38%","0.0375"],a:1,hint:"1/8 = 0.125. Multiply that by 3.",traps:{0:"3/8 isn’t “3 point 8.” It means 3 divided by 8."},steps:["1/8 = 0.125.","3 × 0.125 = 0.375, which is 37.5%."]},
+ {id:"L01c",stem:"In a survey, 18 of 120 responses were negative. What percent were negative?",ch:["6.7%","12%","15%","18%","20%"],a:2,hint:"Part ÷ whole: 18 ÷ 120. Simplify the fraction first.",traps:{3:"18 is the count, not the percent. Divide by the total of 120."},steps:["Fraction: 18/120.","Divide top and bottom by 6: 3/20.","3/20 = 15/100 = 15%."]},
+ {id:"L01d",stem:"What is 15% of 260?",ch:["26","36","39","45","52"],a:2,hint:"Find 10%, then half of that for 5%, and add them.",steps:["10% of 260 = 26.","5% is half of that: 13.","15% = 26 + 13 = 39."]},
+ {id:"L01e",stem:"Which of the following is largest?",ch:["2/3","0.65","5/8","64%","0.6"],a:0,hint:"Turn everything into a decimal, then compare.",steps:["2/3 ≈ 0.667, 5/8 = 0.625, 64% = 0.64.","Order: 0.667 > 0.65 > 0.64 > 0.625 > 0.6."]},
+ {id:"L01f",stem:"A $4,000 budget is split so that 3/5 goes to marketing. How much goes to marketing?",ch:["$800","$1,600","$2,000","$2,400","$3,000"],a:3,hint:"Find 1/5 of $4,000 first, then multiply by 3.",traps:{1:"$1,600 is the other 2/5, the part that doesn’t go to marketing."},steps:["1/5 of 4,000 = 800.","3/5 = 3 × 800 = 2,400."]}]},
+{id:"L02",t:"Percent change",blurb:"Increases, decreases, and why percents don’t cancel.",match:{subs:["Percents","Compound interest"]},
+ c:[["The formula","<p>Percent change = (new − old) ÷ old × 100. The base is always the starting value.</p>"],
+  ["Think in multipliers","<p>A 20% increase means × 1.20. A 20% decrease means × 0.80. Most percent problems become a single multiplication.</p>"],
+  ["Successive changes multiply","<p>+20% then −20% is 1.2 × 0.8 = 0.96: a 4% loss overall. Never add or cancel percents; the second change applies to a different number.</p>"],
+  ["Working backward","<p>If a price after a 25% increase is $150, the original is 150 ÷ 1.25 = $120. Subtracting 25% of $150 gives the wrong answer.</p>"]],
+ ex:{q:"Sales went from $80,000 to $92,000. What was the percent increase?",steps:[["Change: 92,000 − 80,000 = 12,000.","Always new minus old."],["Divide by the starting value: 12,000 ÷ 80,000 = 0.15.","The base is the old value, not the new one."],["0.15 = 15%.",""]]},
+ traps:["Dividing by the new value instead of the old one.","Undoing a percent increase by subtracting the same percent."],
+ p:[
+ {id:"L02a",stem:"A price rises from $50 to $60. What is the percent increase?",ch:["10%","16.7%","20%","60%","120%"],a:2,hint:"Change ÷ starting price.",traps:{1:"16.7% divides by the new price, $60. Use the starting price."},steps:["Change: 60 − 50 = 10.","10 ÷ 50 = 0.2 = 20%."]},
+ {id:"L02b",stem:"What number is 30% more than 200?",ch:["230","260","270","300","600"],a:1,hint:"Use the multiplier 1.30.",steps:["30% more means × 1.3.","200 × 1.3 = 260."]},
+ {id:"L02c",stem:"A stock falls from $40 to $30. What is the percent decrease?",ch:["10%","25%","33.3%","75%","133%"],a:1,hint:"The change is 10. Divide by the starting value.",traps:{2:"33.3% divides by $30, the new value."},steps:["Change: 40 − 30 = 10.","10 ÷ 40 = 0.25 = 25%."]},
+ {id:"L02d",stem:"A $60,000 salary gets a 10% raise one year and another 10% raise the next. What is the new salary?",ch:["$66,000","$72,000","$72,600","$73,200","$78,000"],a:2,hint:"Multiply by 1.1, then by 1.1 again.",traps:{1:"$72,000 adds 20%, but the second raise applies to the new, higher salary."},steps:["Year 1: 60,000 × 1.1 = 66,000.","Year 2: 66,000 × 1.1 = 72,600."]},
+ {id:"L02e",stem:"After a 25% discount, a jacket costs $90. What was the original price?",ch:["$67.50","$112.50","$115","$120","$125"],a:3,hint:"After the discount you pay 75% of the original: 0.75 × original = 90.",traps:{1:"$112.50 adds 25% to $90, but the discount was 25% of the original price, not the sale price."},steps:["You paid 75%: 0.75 × P = 90.","P = 90 ÷ 0.75 = 120.","Check: 25% of 120 is 30, and 120 − 30 = 90."]},
+ {id:"L02f",stem:"A price increases by 50% and then decreases by 50%. The final price is what percent of the original?",ch:["50%","75%","100%","125%","150%"],a:1,hint:"Multiply the two multipliers: 1.5 × 0.5.",traps:{2:"The changes don’t cancel. The 50% decrease applies to a bigger number."},steps:["1.5 × 0.5 = 0.75.","The final price is 75% of the original."]}]},
+{id:"L03",t:"Ratios and mixtures",blurb:"Splitting totals into parts and tracking ingredients.",match:{subs:["Ratios","Mixtures"]},
+ c:[["What a ratio says","<p>3:5 means for every 3 of one thing there are 5 of the other. It describes proportions, not actual counts.</p>"],
+  ["The parts method","<p>Treat a ratio as parts. 3:5 has 3 + 5 = 8 parts. If the total is 40, each part is 5, so the groups are 15 and 25.</p>"],
+  ["The multiplier k","<p>Write the groups as 3k and 5k. This helps when something changes, like new people joining one group.</p>"],
+  ["Mixtures","<p>Track the amount of the ingredient, not just the percentage. A 40-liter mix that’s 25% concentrate holds 10 liters of concentrate.</p>"]],
+ ex:{q:"Managers and analysts are in a ratio of 2:7, with 54 people in total. How many analysts are there?",steps:[["Add the parts: 2 + 7 = 9.","The total is made of 9 equal parts."],["One part: 54 ÷ 9 = 6 people.",""],["Analysts: 7 parts × 6 = 42.","Check: 12 managers + 42 analysts = 54."]]},
+ traps:["Treating the ratio numbers as actual counts.","Forgetting to add the parts to find how many parts make the total."],
+ p:[
+ {id:"L03a",stem:"Red and blue marbles are in a ratio of 2:3, with 30 marbles in total. How many are blue?",ch:["6","10","12","18","20"],a:3,hint:"There are 5 parts. How many marbles is one part?",traps:{2:"12 is the number of red marbles. Check which group the question asks for."},steps:["2 + 3 = 5 parts.","30 ÷ 5 = 6 per part.","Blue: 3 × 6 = 18."]},
+ {id:"L03b",stem:"A recipe uses flour and sugar in a ratio of 5:2. With 15 cups of flour, how many cups of sugar are needed?",ch:["3","6","7.5","10","37.5"],a:1,hint:"Flour went from 5 to 15. What did it get multiplied by?",steps:["5 × 3 = 15, so everything scales by 3.","Sugar: 2 × 3 = 6."]},
+ {id:"L03c",stem:"Two partners split a $50,000 profit in a ratio of 3:7. How much is the smaller share?",ch:["$7,500","$15,000","$16,667","$21,429","$35,000"],a:1,hint:"There are 10 parts in total.",steps:["3 + 7 = 10 parts.","50,000 ÷ 10 = 5,000 per part.","Smaller share: 3 × 5,000 = 15,000."]},
+ {id:"L03d",stem:"Two numbers are in a ratio of 4:5 and differ by 6. What is the larger number?",ch:["20","24","25","30","54"],a:3,hint:"Write them as 4k and 5k. Their difference is k.",steps:["The numbers are 4k and 5k.","5k − 4k = k = 6.","Larger: 5 × 6 = 30."]},
+ {id:"L03e",stem:"A 20-liter mix is 30% juice. How many liters of juice does it contain?",ch:["3","6","10","14","20"],a:1,hint:"Find 30% of 20.",steps:["0.3 × 20 = 6 liters."]},
+ {id:"L03f",stem:"A team has 6 managers and 9 analysts. How many analysts must be hired for the ratio of managers to analysts to become 1:2?",ch:["1","2","3","4","6"],a:2,hint:"With 6 managers, how many analysts does a 1:2 ratio need?",steps:["1:2 with 6 managers means 12 analysts.","12 − 9 = 3 more analysts."]}]},
+{id:"L04",t:"Averages, medians, and ranges",blurb:"Why sums are the key to every average problem.",match:{subs:["Averages","Statistics"]},
+ c:[["Average = sum ÷ count","<p>The fastest move is to flip it: sum = average × count. Most average problems are sum problems in disguise.</p>"],
+  ["Adding or removing a value","<p>Compare the sums before and after. If five numbers average 18 (sum 90) and four of them average 16 (sum 64), the removed number is 26.</p>"],
+  ["Weighted averages","<p>When groups differ in size, weight each by its size: total of everything ÷ total count. The answer leans toward the bigger group.</p>"],
+  ["Median and range","<p>The median is the middle value once the list is sorted (with an even count, average the middle two). The range is largest minus smallest.</p>"]],
+ ex:{q:"Four exam scores average 80. What score on a fifth exam would raise the average to 82?",steps:[["Sum of four: 4 × 80 = 320.","Turn the average into a sum."],["Needed sum of five: 5 × 82 = 410.",""],["Fifth score: 410 − 320 = 90.","Check: 410 ÷ 5 = 82."]]},
+ traps:["Averaging two averages without weighting by group size.","Finding a median without sorting the list first."],
+ p:[
+ {id:"L04a",stem:"What is the average of 12, 15, 18, and 23?",ch:["15","16","17","17.5","18"],a:2,hint:"Add them, then divide by 4.",steps:["Sum: 12 + 15 + 18 + 23 = 68.","68 ÷ 4 = 17."]},
+ {id:"L04b",stem:"What is the median of 9, 3, 12, 7, 5?",ch:["5","7","7.2","9","12"],a:1,hint:"Sort the list first.",traps:{4:"12 is the middle of the list as written. Sort it first."},steps:["Sorted: 3, 5, 7, 9, 12.","The middle (third) value is 7."]},
+ {id:"L04c",stem:"The average of 6 numbers is 10. What is their sum?",ch:["16","36","50","60","66"],a:3,hint:"Sum = average × count.",steps:["6 × 10 = 60."]},
+ {id:"L04d",stem:"Three numbers average 20. Two of them are 15 and 22. What is the third?",ch:["17","20","21","23","25"],a:3,hint:"What must all three add up to?",steps:["Total: 3 × 20 = 60.","60 − 15 − 22 = 23."]},
+ {id:"L04e",stem:"Team A has 10 people who averaged 30 hours of training. Team B has 30 people who averaged 50 hours. What is the average for all 40 people?",ch:["35","40","42.5","45","47.5"],a:3,hint:"Find each team’s total hours, then divide by 40.",traps:{1:"40 is the simple average of 30 and 50, but team B is three times bigger, so the answer leans toward 50."},steps:["Team A: 10 × 30 = 300 hours. Team B: 30 × 50 = 1,500 hours.","1,800 ÷ 40 = 45."]},
+ {id:"L04f",stem:"What is the range of 14, 3, 27, 9, 18?",ch:["9","14","18","24","27"],a:3,hint:"Largest minus smallest.",steps:["27 − 3 = 24."]}]},
+{id:"L05",t:"Solving equations",blurb:"Getting x alone, including when x is squared.",match:{subs:["Algebra"]},
+ c:[["Keep it balanced","<p>Whatever you do to one side, do to the other. The goal is to get x by itself.</p>"],
+  ["Undo in reverse order","<p>In 3x + 5 = 20, the x was multiplied by 3 and then had 5 added. Undo the last step first: subtract 5 (3x = 15), then divide by 3 (x = 5).</p>"],
+  ["Distribute, then combine","<p>2(x − 4) + x = 13 becomes 2x − 8 + x = 13, then 3x − 8 = 13, so x = 7. The 2 multiplies everything inside the parentheses.</p>"],
+  ["When x is squared","<p>Move everything to one side and factor. For x² − 5x + 6 = 0, find two numbers that multiply to 6 and add to 5: 2 and 3. So (x − 2)(x − 3) = 0, and x = 2 or x = 3. Then check any condition like x > 0.</p>"]],
+ ex:{q:"Solve 4x − 7 = 2x + 9.",steps:[["Subtract 2x from both sides: 2x − 7 = 9.","Gather the x terms on one side."],["Add 7 to both sides: 2x = 16.",""],["Divide by 2: x = 8.","Check: 4(8) − 7 = 25 and 2(8) + 9 = 25."]]},
+ traps:["Sign errors when moving a term across the equals sign.","Distributing to only the first term in the parentheses."],
+ p:[
+ {id:"L05a",stem:"If 3x + 5 = 20, what is x?",ch:["3","5","6","8.3","15"],a:1,hint:"Subtract 5 from both sides, then divide by 3.",steps:["3x = 15.","x = 5."]},
+ {id:"L05b",stem:"If x/4 − 2 = 3, what is x?",ch:["1.25","4","5","12","20"],a:4,hint:"Add 2 to both sides, then multiply by 4.",traps:{2:"5 is x/4. Multiply by 4 to finish."},steps:["x/4 = 5.","x = 20."]},
+ {id:"L05c",stem:"If 2(x − 4) + x = 13, what is x?",ch:["3","5","7","8","9"],a:2,hint:"Distribute the 2 to both x and −4.",steps:["2x − 8 + x = 13.","3x − 8 = 13, so 3x = 21.","x = 7."]},
+ {id:"L05d",stem:"If 5x − 3 = 2x + 12, what is x?",ch:["−5","3","5","9","15"],a:2,hint:"Get the x terms on one side and the numbers on the other.",steps:["Subtract 2x: 3x − 3 = 12.","Add 3: 3x = 15.","x = 5."]},
+ {id:"L05e",stem:"If x² = 49 and x < 0, what is x?",ch:["−49","−24.5","−7","7","49"],a:2,hint:"Which two numbers square to 49? Then apply x < 0.",steps:["x = 7 or x = −7.","x < 0, so x = −7."]},
+ {id:"L05f",stem:"If x² − 7x + 12 = 0, which of the following could be x?",ch:["−4","−3","2","4","7"],a:3,hint:"Find two numbers that multiply to 12 and add to 7.",traps:{1:"Watch the signs: the factor (x − 3) gives x = +3, not −3."},steps:["3 × 4 = 12 and 3 + 4 = 7.","(x − 3)(x − 4) = 0, so x = 3 or x = 4.","Only 4 is offered."]}]},
+{id:"L06",t:"Turning words into equations",blurb:"The translation step most word problems hinge on.",match:{subs:["Word problems"]},
+ c:[["Name the unknown","<p>Write “let x = …” in words before anything else. Most mistakes come from solving for the wrong quantity.</p>"],
+  ["Translate phrase by phrase","<p>“is” → =, “of” → ×, “more than” → +, “per” → ÷. Careful with order: “5 less than x” is x − 5, not 5 − x.</p>"],
+  ["One equation per fact","<p>Each sentence with a number usually becomes one equation. Then solve.</p>"],
+  ["Check against the story","<p>Plug your answer back into the words. Does it make sense?</p>"]],
+ ex:{q:"A consultant charges a $200 setup fee plus $75 per hour. The bill was $950. How many hours did the consultant work?",steps:[["Let h = hours worked.","Name exactly what the question asks for."],["Bill = 200 + 75h, so 200 + 75h = 950.","Fee plus rate × hours."],["75h = 750, so h = 10.","Check: 200 + 750 = 950."]]},
+ traps:["Reversing “less than”: “7 less than 3x” is 3x − 7.","Finding one quantity when the question asks for another."],
+ p:[
+ {id:"L06a",stem:"Twice a number plus 8 is 30. What is the number?",ch:["7","11","15","19","22"],a:1,hint:"2x + 8 = 30.",steps:["2x + 8 = 30.","2x = 22, so x = 11."]},
+ {id:"L06b",stem:"A gym charges a $40 joining fee plus $25 per month. After how many months will a member have paid $240 in total?",ch:["6","8","9.6","10","11"],a:1,hint:"40 + 25m = 240.",traps:{2:"9.6 divides 240 by 25 and ignores the joining fee."},steps:["40 + 25m = 240.","25m = 200, so m = 8."]},
+ {id:"L06c",stem:"Ana is 6 years older than Ben. Their ages add up to 50. How old is Ben?",ch:["20","22","25","28","44"],a:1,hint:"Let b = Ben’s age. Then Ana is b + 6.",traps:{3:"28 is Ana’s age."},steps:["b + (b + 6) = 50.","2b = 44, so b = 22."]},
+ {id:"L06d",stem:"A number decreased by 15 equals one-fourth of the number. What is the number?",ch:["5","12","15","20","60"],a:3,hint:"x − 15 = x/4. Multiply both sides by 4 to clear the fraction.",steps:["x − 15 = x/4.","Multiply by 4: 4x − 60 = x.","3x = 60, so x = 20."]},
+ {id:"L06e",stem:"A store sold 120 items, some at $5 and the rest at $8, for $780 in total. How many $8 items were sold?",ch:["20","40","60","80","100"],a:2,hint:"Let e = the number of $8 items. Then 120 − e items cost $5.",steps:["5(120 − e) + 8e = 780.","600 + 3e = 780.","3e = 180, so e = 60."]},
+ {id:"L06f",stem:"Seven less than three times a number is 20. What is the number?",ch:["4.3","6","9","13","27"],a:2,hint:"“Seven less than 3x” is 3x − 7.",steps:["3x − 7 = 20.","3x = 27, so x = 9."]}]},
+{id:"L07",t:"Two equations, two unknowns",blurb:"Substitution and elimination, step by step.",match:{subs:["Algebra","Word problems"]},
+ c:[["Why you need two equations","<p>One equation with two unknowns has endless answers. Two different equations pin both down.</p>"],
+  ["Substitution","<p>Solve one equation for one letter and plug it into the other. Best when one equation is simple, like y = 2x or x + y = 9.</p>"],
+  ["Elimination","<p>Add or subtract the equations so one letter cancels. Best when a letter has matching coefficients, like 3x + 5y = 190 and 3x + 11y = 310: subtracting removes x.</p>"],
+  ["Answer the question asked","<p>You often need only one of the two values. Stop as soon as you have it.</p>"]],
+ ex:{q:"x + y = 10 and x − y = 4. What is x?",steps:[["Add the equations: (x + y) + (x − y) = 10 + 4.","The y terms cancel."],["2x = 14, so x = 7.",""],["Then y = 3. Check: 7 − 3 = 4.",""]]},
+ traps:["Solving for the wrong letter.","Subtracting only part of an equation; subtract every term."],
+ p:[
+ {id:"L07a",stem:"If x + y = 12 and x − y = 2, what is x?",ch:["5","6","7","10","14"],a:2,hint:"Add the two equations so y cancels.",steps:["Add: 2x = 14.","x = 7."]},
+ {id:"L07b",stem:"If y = 2x and x + y = 18, what is y?",ch:["6","9","12","18","36"],a:2,hint:"Substitute 2x for y in the second equation.",traps:{0:"6 is x. The question asks for y."},steps:["x + 2x = 18, so x = 6.","y = 2 × 6 = 12."]},
+ {id:"L07c",stem:"Adult tickets cost $10 and child tickets cost $6. A group bought 10 tickets for $80. How many adult tickets did it buy?",ch:["3","4","5","6","8"],a:2,hint:"a + c = 10 and 10a + 6c = 80. Substitute c = 10 − a.",steps:["10a + 6(10 − a) = 80.","60 + 4a = 80, so a = 5."]},
+ {id:"L07d",stem:"If 2x + y = 11 and x + y = 7, what is x?",ch:["2","3","4","5","7"],a:2,hint:"Subtract the second equation from the first.",steps:["(2x + y) − (x + y) = 11 − 7.","x = 4."]},
+ {id:"L07e",stem:"If 3x + 2y = 16 and x + 2y = 8, what is y?",ch:["1","2","3","4","5"],a:1,hint:"Subtract to find x first, then plug it in.",steps:["Subtract: 2x = 8, so x = 4.","4 + 2y = 8, so y = 2."]},
+ {id:"L07f",stem:"2 pens and 3 notebooks cost $13. 4 pens and 1 notebook cost $11. What does one notebook cost?",ch:["$1","$2","$3","$4","$5"],a:2,hint:"Double the first equation so both have 4 pens, then subtract.",steps:["Double the first: 4p + 6n = 26.","Subtract 4p + n = 11: 5n = 15.","n = 3."]}]},
+{id:"L08",t:"Rates and work",blurb:"Speed, combined work, and person-hours.",match:{subs:["Rates and work"]},
+ c:[["Distance = rate × time","<p>Rearrange as needed: time = distance ÷ rate, and rate = distance ÷ time.</p>"],
+  ["Average speed","<p>Total distance ÷ total time. Never the average of two speeds, because you spend more time at the slower one.</p>"],
+  ["Work rates add","<p>Finishing a job in 6 hours means doing 1/6 of it per hour. For two workers together, add their rates. A drain subtracts.</p>"],
+  ["Person-hours","<p>If 4 people take 6 days, the job is 24 person-days. So 8 people take 3 days. More people means fewer days.</p>"]],
+ ex:{q:"Ann can finish a report in 3 hours and Bo can in 6 hours. How long do they take working together?",steps:[["Ann: 1/3 of the report per hour. Bo: 1/6 per hour.","Turn times into rates."],["Together: 1/3 + 1/6 = 2/6 + 1/6 = 1/2 per hour.","Rates add; times don’t."],["Time = 1 ÷ 1/2 = 2 hours.","Faster than either alone, as it should be."]]},
+ traps:["Averaging two times or two speeds.","Scaling the wrong way: doubling the workers halves the time."],
+ p:[
+ {id:"L08a",stem:"A car travels 180 miles in 3 hours. What is its average speed in miles per hour?",ch:["45","54","60","90","540"],a:2,hint:"Rate = distance ÷ time.",steps:["180 ÷ 3 = 60."]},
+ {id:"L08b",stem:"At 50 miles per hour, how long does a 125-mile trip take?",ch:["2 hours","2.5 hours","2.75 hours","3 hours","6.25 hours"],a:1,hint:"Time = distance ÷ rate.",steps:["125 ÷ 50 = 2.5 hours."]},
+ {id:"L08c",stem:"A machine makes 40 units per hour. How many units does it make in 2.5 hours?",ch:["16","80","90","100","120"],a:3,hint:"Units = rate × time.",steps:["40 × 2.5 = 100."]},
+ {id:"L08d",stem:"Pipe A fills a tank in 2 hours and pipe B in 6 hours. How long do they take together?",ch:["1.5 hours","2 hours","3 hours","4 hours","8 hours"],a:0,hint:"Add the rates: 1/2 + 1/6.",traps:{3:"4 hours averages the two times. Working together must be faster than either alone."},steps:["1/2 + 1/6 = 3/6 + 1/6 = 4/6 = 2/3 of the tank per hour.","Time = 1 ÷ 2/3 = 1.5 hours."]},
+ {id:"L08e",stem:"5 workers finish a job in 12 days. At the same rate, how many days would 6 workers need?",ch:["8","10","12","14.4","15"],a:1,hint:"The job is 5 × 12 = 60 worker-days.",traps:{3:"14.4 scales the wrong way. More workers means fewer days."},steps:["Job: 5 × 12 = 60 worker-days.","60 ÷ 6 = 10 days."]},
+ {id:"L08f",stem:"A cyclist rides 30 miles at 10 miles per hour and returns along the same route at 15 miles per hour. What is the average speed for the round trip?",ch:["11","12","12.5","13","25"],a:1,hint:"Find the total time for each leg first.",traps:{2:"12.5 averages the speeds, but more time is spent at the slower one."},steps:["Out: 30 ÷ 10 = 3 hours. Back: 30 ÷ 15 = 2 hours.","60 miles ÷ 5 hours = 12 mph."]}]},
+{id:"L09",t:"Number properties",blurb:"Even and odd, divisibility, primes, and remainders.",match:{subs:["Number properties","Remainders"]},
+ c:[["Even and odd","<p>Even ± even = even. Odd ± odd = even. Even ± odd = odd. A product is even if any factor is even.</p>"],
+  ["Divisibility shortcuts","<p>By 2: last digit is even. By 3: digits add to a multiple of 3. By 5: ends in 0 or 5. By 9: digits add to a multiple of 9.</p>"],
+  ["Primes and factors","<p>A prime has exactly two factors: 1 and itself. 2 is the only even prime, and 1 is not prime. Break numbers into primes: 72 = 2 × 2 × 2 × 3 × 3.</p>"],
+  ["Remainders","<p>47 ÷ 6 = 7 remainder 5, because 47 = 6 × 7 + 5. The remainder is always smaller than the number you divide by.</p>"]],
+ ex:{q:"Is 2,457 divisible by 9?",steps:[["Add the digits: 2 + 4 + 5 + 7 = 18.","The digit-sum rule works for 3 and 9."],["18 is a multiple of 9, so yes.","2,457 ÷ 9 = 273."]]},
+ traps:["Calling 1 a prime number.","Forgetting that zero and negative numbers can be even integers too."],
+ p:[
+ {id:"L09a",stem:"If a is odd and b is even, which of the following must be odd?",ch:["ab","a + b","2a","b − 2","a × a × b"],a:1,hint:"Try a = 3 and b = 2 in each choice.",steps:["Odd + even = odd, so a + b is odd.","Each other choice includes an even factor or is even − even."]},
+ {id:"L09b",stem:"Which number is prime?",ch:["1","21","29","33","51"],a:2,hint:"Check each for small factors like 3 and 7.",traps:{0:"1 isn’t prime. A prime needs exactly two factors."},steps:["21 = 3 × 7, 33 = 3 × 11, 51 = 3 × 17.","29 has no factors besides 1 and 29."]},
+ {id:"L09c",stem:"What is the remainder when 47 is divided by 6?",ch:["1","3","5","7","41"],a:2,hint:"What is the largest multiple of 6 below 47?",steps:["6 × 7 = 42.","47 − 42 = 5."]},
+ {id:"L09d",stem:"Which number is divisible by 3?",ch:["124","235","412","513","710"],a:3,hint:"Add each number’s digits.",steps:["5 + 1 + 3 = 9, a multiple of 3.","The others add to 7, 10, 7, and 8."]},
+ {id:"L09e",stem:"How many positive factors does 12 have?",ch:["3","4","5","6","12"],a:3,hint:"List the pairs that multiply to 12.",steps:["1 × 12, 2 × 6, 3 × 4.","Factors: 1, 2, 3, 4, 6, 12. That’s six."]},
+ {id:"L09f",stem:"Which shows 60 written as a product of primes?",ch:["2 × 30","2 × 2 × 15","2 × 2 × 3 × 5","3 × 4 × 5","2 × 3 × 10"],a:2,hint:"Keep splitting until every number is prime.",steps:["60 = 2 × 30 = 2 × 2 × 15 = 2 × 2 × 3 × 5.","Every factor in C is prime; the others contain 30, 15, 4, or 10."]}]},
+{id:"L10",t:"Exponents and roots",blurb:"The handful of rules that cover nearly every exponent question.",match:{subs:["Exponents"]},
+ c:[["What an exponent means","<p>2<sup>5</sup> = 2 × 2 × 2 × 2 × 2 = 32.</p>"],
+  ["Rules for the same base","<p>Multiply: add the exponents (2<sup>3</sup> × 2<sup>4</sup> = 2<sup>7</sup>). Divide: subtract (2<sup>6</sup> ÷ 2<sup>2</sup> = 2<sup>4</sup>). Power of a power: multiply ((2<sup>3</sup>)<sup>2</sup> = 2<sup>6</sup>).</p>"],
+  ["Zero and negative exponents","<p>Any nonzero number to the power 0 is 1. A negative exponent means “one over”: 2<sup>−2</sup> = 1/4.</p>"],
+  ["Roots","<p>√49 = 7. Learn the squares from 1 to 15 (up to 225). √(a × b) = √a × √b, so √50 = √25 × √2 = 5√2. But √a + √b is not √(a + b).</p>"]],
+ ex:{q:"Simplify 3<sup>4</sup> × 3<sup>2</sup> ÷ 3<sup>3</sup>.",steps:[["Multiply: add exponents, 4 + 2 = 6.","Same base, so the rules apply."],["Divide: subtract, 6 − 3 = 3.",""],["3<sup>3</sup> = 27.",""]]},
+ traps:["Multiplying exponents when you should add them.","Adding square roots as if √a + √b = √(a + b)."],
+ p:[
+ {id:"L10a",stem:"What is 3<sup>4</sup>?",ch:["7","12","64","81","243"],a:3,hint:"Multiply 3 by itself four times.",traps:{1:"12 is 3 × 4. An exponent means repeated multiplication."},steps:["3 × 3 × 3 × 3 = 81."]},
+ {id:"L10b",stem:"2<sup>3</sup> × 2<sup>5</sup> = ?",ch:["2<sup>8</sup>","2<sup>15</sup>","4<sup>8</sup>","4<sup>15</sup>","2<sup>2</sup>"],a:0,hint:"Same base, multiplying: add the exponents.",traps:{1:"Multiplying powers with the same base adds the exponents; it doesn’t multiply them."},steps:["3 + 5 = 8, so 2<sup>8</sup>."]},
+ {id:"L10c",stem:"(5<sup>2</sup>)<sup>3</sup> = ?",ch:["5<sup>5</sup>","5<sup>6</sup>","5<sup>8</sup>","25<sup>5</sup>","15<sup>2</sup>"],a:1,hint:"Power of a power: multiply the exponents.",steps:["2 × 3 = 6, so 5<sup>6</sup>."]},
+ {id:"L10d",stem:"What is √144 + √25?",ch:["13","17","19","21","169"],a:1,hint:"Take each square root separately, then add.",traps:{0:"13 is √169. Roots don’t add that way: find each root first."},steps:["√144 = 12 and √25 = 5.","12 + 5 = 17."]},
+ {id:"L10e",stem:"What is 10<sup>−2</sup>?",ch:["−100","−20","0.01","0.1","100"],a:2,hint:"A negative exponent means one over the positive power.",traps:{0:"A negative exponent doesn’t make the number negative. It means one over."},steps:["10<sup>−2</sup> = 1/10<sup>2</sup> = 1/100 = 0.01."]},
+ {id:"L10f",stem:"If 2<sup>x</sup> = 32, what is x?",ch:["4","5","6","8","16"],a:1,hint:"Keep doubling from 2 and count the steps.",steps:["2, 4, 8, 16, 32: that’s 2<sup>5</sup>.","x = 5."]}]},
+{id:"L11",t:"Inequalities and negative numbers",blurb:"The flip rule, absolute value, and testing tricky numbers.",match:{subs:["Inequalities"]},
+ c:[["Solve like an equation","<p>2x + 3 < 11 becomes 2x < 8, so x < 4.</p>"],
+  ["The flip rule","<p>Multiplying or dividing both sides by a negative number reverses the sign: −2x > 6 becomes x < −3.</p>"],
+  ["Absolute value is distance from zero","<p>|−5| = 5. |x| = 3 means x = 3 or x = −3. |x − 2| < 3 means x is within 3 of 2: −1 < x < 5.</p>"],
+  ["Test the tricky numbers","<p>Statements that seem obvious often fail for negatives, zero, or fractions between 0 and 1. For example, x<sup>2</sup> > x is false when x = 1/2.</p>"]],
+ ex:{q:"Solve 5 − 3x > 14.",steps:[["Subtract 5: −3x > 9.",""],["Divide by −3 and flip the sign: x < −3.","Dividing by a negative reverses the inequality."],["Check with x = −4: 5 + 12 = 17, which is greater than 14.",""]]},
+ traps:["Forgetting to flip the sign when dividing by a negative.","Assuming x is positive when nothing says so."],
+ p:[
+ {id:"L11a",stem:"Solve 2x + 3 < 11.",ch:["x < 4","x > 4","x < 5.5","x < 7","x > 7"],a:0,hint:"Subtract 3, then divide by 2.",steps:["2x < 8.","x < 4."]},
+ {id:"L11b",stem:"Solve −3x ≥ 12.",ch:["x ≥ −4","x ≤ −4","x ≥ 4","x ≤ 4","x ≤ −36"],a:1,hint:"You’ll divide by a negative number. What happens to the sign?",traps:{0:"Dividing by −3 flips the inequality sign."},steps:["Divide by −3 and flip: x ≤ −4."]},
+ {id:"L11c",stem:"If |x| = 6, which could x be?",ch:["Only 6","Only −6","6 or −6","0","36"],a:2,hint:"Which numbers are 6 away from zero?",steps:["Both 6 and −6 are 6 units from zero."]},
+ {id:"L11d",stem:"If x<sup>2</sup> > x, which of the following could be x?",ch:["0","1/2","3/4","1","2"],a:4,hint:"Try each value. Fractions between 0 and 1 get smaller when squared.",steps:["2<sup>2</sup> = 4, which is greater than 2.","0, 1/2, 3/4, and 1 all give x<sup>2</sup> ≤ x."]},
+ {id:"L11e",stem:"If x < 0, which of the following must be positive?",ch:["2x","x<sup>3</sup>","x<sup>2</sup>","x + 1","x/2"],a:2,hint:"Try x = −2 and x = −0.5.",traps:{3:"x + 1 is negative when x = −2."},steps:["A negative number squared is positive.","2x, x<sup>3</sup>, and x/2 stay negative; x + 1 can go either way."]},
+ {id:"L11f",stem:"Which describes all x where |x − 2| < 3?",ch:["−1 < x < 5","x < 5","−5 < x < 1","x > −1","1 < x < 5"],a:0,hint:"x must be less than 3 away from 2.",steps:["|x − 2| < 3 means −3 < x − 2 < 3.","Add 2 throughout: −1 < x < 5."]}]},
+{id:"L12",t:"Counting, probability, and overlapping groups",blurb:"Favorable over total, combinations, and the two-circle rule.",match:{subs:["Counting and probability","Counting","Sets and overlaps"]},
+ c:[["Probability","<p>Favorable outcomes ÷ total outcomes. The chance of rolling a 5 on a fair die is 1/6.</p>"],
+  ["“And” and “at least one”","<p>For independent events, “A and B” multiplies: two heads is 1/2 × 1/2 = 1/4. “At least one” is usually easiest as 1 − P(none).</p>"],
+  ["Counting","<p>3 options for one choice and 4 for another give 3 × 4 = 12 combinations. Choosing a group where order doesn’t matter uses C(n, k): C(5, 2) = 10.</p>"],
+  ["Overlapping groups","<p>Total = group A + group B − both + neither. Subtract the overlap so nobody is counted twice. Drawing two circles helps.</p>"]],
+ ex:{q:"Of 50 employees, 30 speak Spanish, 20 speak French, and 8 speak both. How many speak neither?",steps:[["Speak at least one: 30 + 20 − 8 = 42.","Subtract the overlap so it isn’t counted twice."],["Neither: 50 − 42 = 8.",""]]},
+ traps:["Dividing by the wrong total, like one group instead of everyone.","Counting a team of two twice by treating order as if it matters."],
+ p:[
+ {id:"L12a",stem:"A bag holds 3 red and 5 blue marbles. What is the probability of drawing a red one?",ch:["1/8","1/3","3/8","3/5","5/8"],a:2,hint:"Red ÷ total marbles.",traps:{3:"3/5 compares red with blue. Divide by the total of 8."},steps:["Total: 8 marbles.","Red: 3/8."]},
+ {id:"L12b",stem:"A coin is flipped twice. What is the probability of two heads?",ch:["1/8","1/4","1/3","1/2","3/4"],a:1,hint:"Multiply the chance for each flip.",steps:["1/2 × 1/2 = 1/4."]},
+ {id:"L12c",stem:"A menu has 4 starters and 5 mains. How many starter-and-main combinations are there?",ch:["9","10","16","20","25"],a:3,hint:"Multiply the options.",traps:{0:"9 adds the options. Each starter pairs with every main, so multiply."},steps:["4 × 5 = 20."]},
+ {id:"L12d",stem:"In a class of 30, 18 play soccer, 12 play tennis, and 5 play both. How many play neither?",ch:["0","3","5","8","10"],a:2,hint:"First find how many play at least one sport.",traps:{0:"18 + 12 = 30 counts the 5 who play both twice."},steps:["At least one: 18 + 12 − 5 = 25.","Neither: 30 − 25 = 5."]},
+ {id:"L12e",stem:"How many different 2-person teams can be chosen from 5 people?",ch:["5","10","20","25","60"],a:1,hint:"Count ordered pairs, then divide by 2, since Ann–Bo is the same team as Bo–Ann.",traps:{2:"20 counts each pair twice. Order doesn’t matter for a team."},steps:["Ordered pairs: 5 × 4 = 20.","Each team is counted twice: 20 ÷ 2 = 10."]},
+ {id:"L12f",stem:"A fair die is rolled once. What is the probability of rolling a number greater than 4?",ch:["1/6","1/3","1/2","2/3","5/6"],a:1,hint:"Which numbers on a die are greater than 4?",steps:["5 and 6: two outcomes out of six.","2/6 = 1/3."]}]},
+{id:"L13",t:"The Data Sufficiency method",blurb:"A step-by-step routine for the format that trips up most people.",match:{types:["DS"]},
+ c:[["The question isn’t asking for the answer","<p>It asks whether you could find one definite answer. You often don’t need to finish the math.</p>"],
+  ["The five choices never change","<p>A: (1) alone works. B: (2) alone works. C: only both together. D: each alone works. E: not even together.</p>"],
+  ["Go in order","<p>Judge (1) by itself. Then judge (2) by itself, forgetting (1). Combine them only if neither works alone.</p>"],
+  ["Sufficient means one answer","<p>One value, or a definite yes, or a definite no. Try numbers, including negatives and zero, to look for two different answers.</p>"]],
+ ex:{q:"What is x?<br>(1) 3x + 2 = 11<br>(2) x<sup>2</sup> = 9",steps:[["(1): x = 3. One value, so sufficient.","That rules out B, C, and E."],["(2): x = 3 or −3. Two values, so not sufficient.","That rules out D."],["Answer: A.",""]]},
+ traps:["Letting statement (1) leak into your judgment of statement (2).","Treating a definite “no” as insufficient. A definite no is sufficient."],
+ p:[
+ {id:"L13a",type:"DS",stem:"What is the value of y?",s1:"y + 4 = 10",s2:"2y = 12",a:3,hint:"Solve each statement on its own.",steps:["(1): y = 6. Sufficient.","(2): y = 6. Sufficient.","Each alone works: D."]},
+ {id:"L13b",type:"DS",stem:"Is n greater than 10?",s1:"n > 12",s2:"n > 8",a:0,hint:"For (2), try n = 9 and n = 11.",steps:["(1): every n above 12 is above 10. Definite yes.","(2): n = 9 says no; n = 11 says yes. Not sufficient.","Answer: A."]},
+ {id:"L13c",type:"DS",stem:"What is the price of a sandwich?",s1:"A sandwich and a drink cost $9 together.",s2:"A drink costs $2.",a:2,hint:"Can either statement alone give one price?",steps:["(1): many possible splits of $9. Not sufficient.","(2): says nothing about the sandwich. Not sufficient.","Together: 9 − 2 = $7. C."]},
+ {id:"L13d",type:"DS",stem:"What is x?",s1:"x<sup>2</sup> = 25",s2:"x > 0",a:2,hint:"How many values does x<sup>2</sup> = 25 allow?",traps:{0:"x could be 5 or −5, so (1) alone gives two answers."},steps:["(1): x = 5 or −5. Not sufficient.","(2): any positive number. Not sufficient.","Together: x = 5. C."]},
+ {id:"L13e",type:"DS",stem:"Is the integer k even?",s1:"k + 1 is odd.",s2:"2k is even.",a:0,hint:"Is 2k ever odd?",traps:{3:"2k is even for every integer k, so statement (2) tells you nothing."},steps:["(1): if k + 1 is odd, k is even. Sufficient.","(2): 2k is always even, whatever k is. Not sufficient.","Answer: A."]},
+ {id:"L13f",type:"DS",stem:"How many employees work at the firm?",s1:"40% of the employees work remotely.",s2:"60 employees work in the office.",a:2,hint:"What does each statement give: a percent, or a count?",steps:["(1): only a percent. Not sufficient.","(2): only one group’s count. Not sufficient.","Together: 60% work in the office, so 60 is 60% of the total: 100. C."]}]}
+];
+LESSONS.forEach(l=>l.p.forEach(q=>{q.sec="Q";q.type=q.type||"PS";q.sub=l.t;q.d=1;q.lesson=l.id;}));
+
 /*DATA-END*/
 
 /* ================= state ================= */
@@ -736,7 +933,7 @@ const Q={};BANK.forEach(q=>Q[q.id]=q);
 const CQ={};CONCEPTS.forEach(c=>CQ[c.id]=c);
 const KEY="ea-prep-v1";
 const DAY=864e5,INT=[0,1,2,4,8,16];
-function fresh(){return{v:1,settings:{goal:120,target:150},attempts:[],sessions:[],cards:{},tests:[],seenTest:{},inprog:null,flashReviews:0,perfect:false,qotd:null,qotdLog:[],recapSeen:null,updatedAt:0};}
+function fresh(){return{v:1,settings:{goal:120,target:150},attempts:[],sessions:[],cards:{},tests:[],seenTest:{},inprog:null,flashReviews:0,perfect:false,qotd:null,qotdLog:[],recapSeen:null,learn:{},updatedAt:0};}
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.v===1)return Object.assign(fresh(),x);}catch(e){}return fresh();}
 let S=load();
 let syncRef=null,syncTimer=null,syncState="device";
@@ -806,9 +1003,10 @@ document.addEventListener("click",e=>{
     if(st.dataset.tab!=null)UI.tab[id]=+st.dataset.tab;
     else{const key=st.closest("table").dataset.key,c=+st.dataset.sort,cur=UI.sort[key];UI.sort[key]=cur&&cur.c===c?{c,d:-cur.d}:{c,d:1};}
     box.innerHTML=stimInner(id);return;}
+  const ln=e.target.closest("[data-learn]");if(ln){openLesson(ln.dataset.learn);return;}
   const b=e.target.closest("[data-act]");if(b&&ACT[b.dataset.act])ACT[b.dataset.act](b,e);
 });
-function toast(msg){const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3800);}
+function toast(msg,ms){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.innerHTML=`<span></span><button class="tclose" aria-label="Dismiss message">Close</button>`;t.firstChild.textContent=msg;t.addEventListener("click",()=>t.remove());document.body.appendChild(t);setTimeout(()=>t.remove(),ms||6000);}
 function confirmBox(title,body,ok,cancel){return new Promise(res=>{const bg=document.createElement("div");bg.className="modal-bg";bg.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><h2>${title}</h2><p>${body}</p><div class="row"><button class="btn" data-x="0">${cancel||"Cancel"}</button><button class="btn primary" data-x="1">${ok}</button></div></div>`;bg.addEventListener("click",e=>{const x=e.target.closest("[data-x]");if(x){bg.remove();res(x.dataset.x==="1");}});document.body.appendChild(bg);bg.querySelector("[data-x='1']").focus();});}
 
 /* ================= stimulus rendering ================= */
@@ -847,6 +1045,7 @@ function explainHTML(q,r,ok,skipped,perm){const steps=`<ol class="steps">${q.ste
   let h=`<div class="fb ${ok?"good":"miss"}" id="fbk" tabindex="-1"><p class="verdict">${ok?"Correct.":skipped?"Here’s how to work it out.":"Not quite."}</p>`;
   if(!ok){if(typeof r==="number"&&q.traps&&q.traps[r])h+=`<p class="trap"><b>Why ${L[posOf(perm,r)]} is tempting: </b>${q.traps[r]}</p>`;h+=`<p><b>Correct answer: </b>${answerText(q,perm)}</p><p class="how">How to reason through it</p>${steps}`;}
   else h+=`<details><summary>See the reasoning</summary>${steps}</details>`;
+  if(!ok){const ls=lessonsFor(q);if(ls.length)h+=`<p class="small" style="margin-top:12px">Want to build this skill from the ground up? ${ls.map(l=>`<button class="linkbtn" data-learn="${l.id}">Lesson ${l.n}: ${l.t}</button>`).join("")}</p>`;}
   return h+"</div>";}
 
 /* ================= question of the day & weekly recap ================= */
@@ -923,7 +1122,7 @@ function pickIds(filter,n,target){const last={};S.attempts.forEach(a=>last[a.q]=
     return{q,s};}).sort((a,b)=>a.s-b.s).slice(0,n).map(x=>x.q);
   return groupShuffle(scored).map(q=>q.id);}
 function startPrep(kind,arg){const n=kind==="mini"?SECS[arg].mods[0]:8;
-  const ids=pickIds(kind==="mini"?q=>q.sec===arg:q=>q.type===arg,n);
+  const ids=pickIds(kind==="mini"?q=>q.sec===arg:kind==="topic"?q=>lessonMatch(LES[arg],q):q=>q.type===arg,n);
   if(!ids.length){toast("No questions of that type yet.");return;}
   P={kind,arg,ids,perms:Object.fromEntries(ids.map(id=>[id,permFor(Q[id])])),i:0,r:null,checked:false,skipped:false,left:kind==="mini"?900:null,over:false,start:Date.now(),qStart:Date.now(),res:[],logged:false};
   go("session");}
@@ -941,13 +1140,13 @@ VIEWS.session=()=>{setMode("prep");showNav(false);const id=P.ids[P.i],q=Q[id];
   ACT.skip=()=>grade(true);
   ACT.next=()=>{if(P.i===P.ids.length-1){go("psum");return;}P.i++;P.r=null;P.checked=false;P.skipped=false;P.qStart=Date.now();go("session");};
   ACT.end=async()=>{if(!P.res.length||await confirmBox("End this session?","Your answers so far are saved.","End session","Keep going"))go(P.res.length?"psum":"prep");};
-  if(P.left!=null&&!P.over){timer=setInterval(()=>{if(P.checked)return;P.left--;const t=$("#timer");if(t)t.textContent=mmss(P.left);if(P.left<=0){P.over=true;clearInterval(timer);if(t){t.textContent="Over time";t.classList.add("low");}toast("15 minutes are up. Finish at your own pace; your pacing shows in the summary.");}},1000);}
+  clearInterval(timer);timer=null;if(P.left!=null&&!P.over){timer=setInterval(()=>{if(P.checked||P.over)return;P.left--;const t=$("#timer");if(t)t.textContent=mmss(P.left);if(P.left<=0){P.over=true;clearInterval(timer);if(t){t.textContent="Over time";t.classList.add("low");}toast("15 minutes are up. Finish at your own pace; your pacing shows in the summary.");}},1000);}
 };
 VIEWS.psum=()=>{setMode("prep");showNav(false);
   if(!P.logged){P.logged=true;logSession(P.kind,(Date.now()-P.start)/1000);if(P.kind==="mini"&&P.res.length>=6&&P.res.every(r=>r.ok))S.perfect=true;save();}
   const c=P.res.filter(r=>r.ok).length,n=P.res.length,avg=n?P.res.reduce((a,r)=>a+r.secs,0)/n:0;
-  const sec=P.kind==="mini"?P.arg:TYPES[P.arg].s,pace=SECS[sec].pace;
-  const title=P.kind==="mini"?`${SECS[P.arg].name} mini-module`:`${TYPES[P.arg].n} drill`;
+  const sec=P.kind==="mini"?P.arg:P.kind==="topic"?"Q":TYPES[P.arg].s,pace=SECS[sec].pace;
+  const title=P.kind==="mini"?`${SECS[P.arg].name} mini-module`:P.kind==="topic"?`${LES[P.arg].t}: exam-style practice`:`${TYPES[P.arg].n} drill`;
   const missedT={};P.res.filter(r=>!r.ok).forEach(r=>{const t=Q[r.id].type;missedT[t]=(missedT[t]||0)+1;});
   const weakT=Object.keys(missedT).sort((a,b)=>missedT[b]-missedT[a])[0];
   setHeader(`<span class="brand">EA Prep</span>`,"");
@@ -961,7 +1160,7 @@ VIEWS.psum=()=>{setMode("prep");showNav(false);
   ACT.home=()=>go("prep");
   ACT.drill=()=>startPrep("drill",weakT);
 };
-VIEWS.qview=a=>{const q=Q[a.id],ok=isCorrect(q,a.r);setMode(a.back==="tresult"?"test":"prep");showNav(false);
+VIEWS.qview=a=>{const q=a.q||Q[a.id],ok=isCorrect(q,a.r);setMode(a.back==="tresult"?"test":"prep");showNav(false);
   setHeader(`<button class="hbtn" data-act="back">Back</button>`,`<span class="tsec">${TYPES[q.type].n}</span>`);
   app.innerHTML=`${stimBox(q)}<div class="qa">${qaHTML(q,a.r,{locked:true,show:true,perm:a.perm})}</div>${a.r==null?`<p class="small">You didn’t answer this one.</p>`:""}${explainHTML(q,a.r,ok,a.r==null,a.perm)}`;
   ACT.back=()=>go(a.back,a.backArg);};
@@ -1022,7 +1221,7 @@ VIEWS.tsection=()=>{setMode("test");showNav(false);const sec=curSec(),s=SECS[sec
   ACT.begin=()=>{if(!T.mods[sec])T.mods[sec]=[buildMod(sec,0,null)];T.mi=0;T.qi=0;T.phase="q";save();go("tq");};
   ACT.pause=()=>{save();go("test");};};
 function testHeader(){const sec=curSec();setHeader(`<button class="hbtn" data-act="pause">Save and exit</button>`,`<span class="tsec">${SECS[sec].short}, module ${T.mi+1}</span><span id="timer" class="timer${T.left[sec]<=300?" low":""}">${mmss(T.left[sec])}</span>`);}
-function testTimer(){timer=setInterval(()=>{const sec=curSec();T.left[sec]--;
+function testTimer(){clearInterval(timer);timer=setInterval(()=>{const sec=curSec();T.left[sec]--;
   if(view==="tq"){const id=curMod()[T.qi];T.qt[id]=(T.qt[id]||0)+1;}
   const el=$("#timer");if(el){el.textContent=mmss(T.left[sec]);el.classList.toggle("low",T.left[sec]<=300);}
   if(T.left[sec]%10===0)save();
@@ -1113,6 +1312,61 @@ VIEWS.progress=()=>{setMode("prep");showNav(true,"progress");setHeader(`<span cl
   $("#goal").onchange=e=>{S.settings.goal=+e.target.value;save();go("progress");};
   $("#tgt").onchange=e=>{const v=Math.round(+e.target.value);if(v>=100&&v<=200){S.settings.target=v;save();}else{e.target.value=S.settings.target;toast("Enter a score from 100 to 200.");}};
   ACT.reset=async()=>{if(await confirmBox("Reset all progress?","This deletes your answers, flashcard schedule, test results, and settings everywhere they’re saved.","Reset")){S=fresh();save();if(syncRef)pushRemote();go("progress");}};
+};
+
+/* ================= learn ================= */
+const LES={};LESSONS.forEach((l,i)=>{l.n=i+1;LES[l.id]=l;});
+function lessonMatch(l,q){return(l.match.subs||[]).includes(q.sub)||(l.match.types||[]).includes(q.type);}
+function lessonsFor(q){if(q.lesson||q.sec!=="Q")return[];const a=LESSONS.filter(l=>(l.match.subs||[]).includes(q.sub)).slice(0,1),b=LESSONS.filter(l=>(l.match.types||[]).includes(q.type)).slice(0,1);return a.concat(b.filter(x=>!a.includes(x)));}
+function lessonState(id){return(S.learn||{})[id]||null;}
+function lessonExamStats(l){const a=S.attempts.filter(x=>Q[x.q]&&lessonMatch(l,Q[x.q])).slice(-12);return{n:a.length,c:a.filter(x=>x.ok).length};}
+function nextLesson(){return LESSONS.find(l=>{const s=lessonState(l.id);return!s||s.st!=="done";})||null;}
+let LS=null;
+function openLesson(id){LS={id,stage:"learn",ex:0,order:[],pi:0,r:null,checked:false,hint:false,res:[],qStart:Date.now(),logFrom:Date.now()};S.learn=S.learn||{};if(!S.learn[id]){S.learn[id]={st:"started",best:0};save();}go("lesson");}
+function logLearn(){if(!LS)return;const s=(Date.now()-LS.logFrom)/1000;LS.logFrom=Date.now();logSession("learn",Math.min(s,3600));save();}
+function startLessonPractice(){const l=LES[LS.id];Object.assign(LS,{stage:"practice",pi:0,r:null,checked:false,hint:false,res:[],order:shuffle(l.p.map((_,i)=>i)),qStart:Date.now()});go("lesson");}
+VIEWS.learn=()=>{setMode("prep");showNav(true,"learn");setHeader(`<span class="brand">EA Prep</span>`,"");
+  const nx=nextLesson();
+  app.innerHTML=`<h1>Learn</h1><p class="sub">Build your math from the ground up. Each lesson has a short explanation, a worked example, and six practice questions with hints.</p>
+  ${nx?`<section class="sheet today"><p class="small">Up next</p><h2>Lesson ${nx.n}: ${nx.t}</h2><p>${nx.blurb}</p><div class="row"><button class="btn primary" data-act="open" data-l="${nx.id}">${lessonState(nx.id)?"Continue":"Start lesson"}</button></div></section>`:`<section class="sheet today"><h2>Every lesson mastered</h2><p>Revisit any lesson below, or switch to exam-style practice.</p></section>`}
+  <h2 style="margin-top:24px">Quant skill path</h2>
+  <ul class="skills">${LESSONS.map(l=>{const s=lessonState(l.id),ex=lessonExamStats(l);const status=!s?"Not started":s.st==="done"?`Mastered, best ${s.best} of 6`:`In progress${s.best?`, best ${s.best} of 6`:""}`;const lv=!s?0:s.st==="done"?3:s.best>=3?2:1;
+    return`<li><button class="skill" data-act="open" data-l="${l.id}"><span class="nm">${l.n}. ${l.t}</span><span class="lv"><span class="meter">${[1,2,3].map(i=>`<i class="${lv>=i?"on":""}"></i>`).join("")}</span>${status}${ex.n?`. Exam-style questions: ${ex.c} of ${ex.n} right`:""}</span><span class="go">${s?"Open":"Start"}</span></button></li>`;}).join("")}</ul>
+  <p class="small" style="margin-top:16px">Lessons are scored on 6 questions; 5 or more right counts as mastered. Verbal and Integrated Reasoning lessons can come later.</p>`;
+  ACT.open=b=>openLesson(b.dataset.l);};
+VIEWS.lesson=()=>{setMode("prep");showNav(false);const l=LES[LS.id],stages=["learn","example","practice"],si=stages.indexOf(LS.stage);
+  setHeader(`<button class="hbtn" data-act="back">Learn</button>`,`<span class="tsec">Lesson ${l.n} of ${LESSONS.length}</span>`);
+  let h=si>=0?`<div class="track">${stages.map((s,i)=>`<span class="${i<=si?"on":""}"></span>`).join("")}</div><p class="small">Step ${si+1} of 3: ${["The idea","Worked example","Practice"][si]}</p>`:"";
+  h+=`<h1>${l.t}</h1>`;
+  if(LS.stage==="learn"){
+    h+=l.c.map(([hd,b])=>`<section class="sheet"><h2>${hd}</h2>${b}</section>`).join("")+`<section class="sheet"><h2>Common traps</h2><ul class="rules">${l.traps.map(t=>`<li>${t}</li>`).join("")}</ul></section>
+    <div class="dock"><button class="btn primary wide" data-act="toex">See a worked example</button></div>`;
+  }else if(LS.stage==="example"){const ex=l.ex,all=LS.ex>=ex.steps.length;
+    h+=`<section class="sheet"><p class="slabel">Problem</p><div class="stem"><p>${ex.q}</p></div></section>${ex.steps.slice(0,LS.ex).map((s,i)=>`<div class="wstep"${i===LS.ex-1?' id="laststep"':""}><p><b>Step ${i+1}.</b> ${s[0]}</p>${s[1]?`<p class="why">${s[1]}</p>`:""}</div>`).join("")}
+    ${LS.ex===0?`<p class="small">Try it on the scratchpad or paper first, then reveal the steps one at a time.</p>`:""}
+    <div class="dock"><button class="btn" data-act="tolearn">Back to the idea</button>${all?`<button class="btn primary" data-act="toprac">Start practice</button>`:`<button class="btn primary" data-act="step">${LS.ex?"Show next step":"Show the first step"}</button>`}</div>`;
+  }else if(LS.stage==="practice"){const q=l.p[LS.order[LS.pi]],ok=LS.checked&&isCorrect(q,LS.r);
+    h+=`<div class="tbar"><span>Question ${LS.pi+1} of ${l.p.length}</span><span class="tools"><button class="tool" data-act="scratch">Scratchpad</button></span></div>
+    <div class="qa" id="qa">${qaHTML(q,LS.r,{locked:LS.checked,show:LS.checked})}</div>${LS.hint&&!LS.checked?`<p class="hint"><b>Hint: </b>${q.hint}</p>`:""}${LS.checked?explainHTML(q,LS.r,ok,false):""}
+    <div class="dock">${LS.checked?`<button class="btn primary wide" data-act="pnext">${LS.pi===l.p.length-1?"See results":"Next question"}</button>`:`<button class="btn" data-act="hint" ${LS.hint?"disabled":""}>Hint</button><button class="btn primary" data-act="pcheck" id="chk" ${isComplete(q,LS.r)?"":"disabled"}>Check answer</button>`}</div>`;
+  }else{const c=LS.res.filter(r=>r.ok).length,n=LS.res.length,mast=c>=5,exN=BANK.filter(q=>lessonMatch(l,q)).length;
+    h+=`<section class="sheet"><div class="score"><b>${c} of ${n}</b><span class="sub">${mast?"Mastered":"Not yet mastered"}</span></div><p>${mast?"You’re ready for exam-style questions on this topic.":c>=3?"Getting there. Review the questions you missed, then try the practice again.":"This one needs another pass. Reread the idea, walk through the example again, then retry."}</p></section>
+    ${LS.res.some(r=>!r.ok)?`<h2>Review what you missed</h2><ul class="rlist">${LS.res.map((r,i)=>r.ok?"":`<li><button data-act="rview" data-i="${i}"><span class="mark x">✗</span><span class="t">${r.q.stem.replace(/<[^>]+>/g,"").slice(0,80)}${r.q.stem.length>80?"…":""}</span></button></li>`).join("")}</ul>`:""}
+    <div class="dock">${mast&&exN?`<button class="btn" data-act="again">Practice again</button><button class="btn primary" data-act="exam">Exam-style questions</button>`:`<button class="btn" data-act="tolearn">Review the lesson</button><button class="btn primary" data-act="again">Practice again</button>`}</div>`;}
+  app.innerHTML=h;
+  if(LS.stage==="practice"&&!LS.checked){const q=l.p[LS.order[LS.pi]];bindQA(q,()=>LS.r,r=>{LS.r=r;$("#chk").disabled=!isComplete(q,r);});}
+  ACT.back=()=>{logLearn();go("learn");};
+  ACT.toex=()=>{LS.stage="example";LS.ex=0;go("lesson");};
+  ACT.tolearn=()=>{LS.stage="learn";go("lesson");};
+  ACT.step=()=>{LS.ex++;VIEWS.lesson();const s=$("#laststep");if(s)s.scrollIntoView({block:"center",behavior:"smooth"});};
+  ACT.toprac=startLessonPractice;ACT.again=startLessonPractice;
+  ACT.hint=()=>{LS.hint=true;VIEWS.lesson();};
+  ACT.scratch=()=>openScratch();
+  ACT.pcheck=()=>{const q=l.p[LS.order[LS.pi]],ok=isCorrect(q,LS.r);logAttempt(q,ok,(Date.now()-LS.qStart)/1000,"l");LS.res.push({q,ok,r:LS.r,h:LS.hint});LS.checked=true;save();VIEWS.lesson();const f=$("#fbk");if(f){f.scrollIntoView({block:"start",behavior:"smooth"});f.focus({preventScroll:true});}};
+  ACT.pnext=()=>{if(LS.pi>=l.p.length-1){const c=LS.res.filter(r=>r.ok).length,st=S.learn[LS.id]||(S.learn[LS.id]={st:"started",best:0});st.best=Math.max(st.best||0,c);if(c>=5)st.st="done";st.last=Date.now();LS.stage="done";logLearn();go("lesson");return;}
+    LS.pi++;LS.r=null;LS.checked=false;LS.hint=false;LS.qStart=Date.now();go("lesson");};
+  ACT.rview=b=>{const r=LS.res[+b.dataset.i];go("qview",{q:r.q,r:r.r,back:"lesson"});};
+  ACT.exam=()=>{startPrep("topic",LS.id);};
 };
 
 /* ================= calculator ================= */
